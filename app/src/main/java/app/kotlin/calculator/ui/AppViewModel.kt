@@ -296,7 +296,7 @@ class AppViewModel : ViewModel() {
     private val showResultAction: () -> Unit = {
         _uiState.update { currentState
             ->
-            currentState.copy(isCompleted = true)
+            currentState.copy(isCompleted = !_uiState.value.isCompleted)
         }
     }
 
