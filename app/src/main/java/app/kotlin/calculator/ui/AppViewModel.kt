@@ -16,14 +16,21 @@ data class AppUiState(
 class AppViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
+
+    //The length of expression
     private var lenOfEx = _uiState.value.expression.length
+
+    //Used to prevent from inputting invalidly (like: //,**,++,--)
     private var theLastChar = _uiState.value.expression.last()
-    private var lenOfPrecision = if (_uiState.value.result.indexOf('.') == -1) {
+
+    //Find the length of the precision part
+    private var lenOfPrecision = if (_uiState.value.result.indexOf(char = '.') == -1) {
         0
     } else {
         _uiState.value.result.length - _uiState.value.result.indexOf('.') - 1
     }
 
+    //Used to prevent from inputting invalidly (like: //,**,++,--)
     private fun removeLastChar() {
         if (!_uiState.value.isCompleted) {
             if (lenOfEx > 1) {
@@ -47,20 +54,24 @@ class AppViewModel : ViewModel() {
     }
 
     private fun appendExpressionAction(theChar: Char) {
-        if (!_uiState.value.isCompleted) {
-            if (theChar in ('0'..'9') && _uiState.value.expression == "0") {
-                _uiState.update { currentState ->
-                    currentState.copy(expression = theChar.toString())
-                }
-            } else {
-                _uiState.update { currentState ->
-                    currentState.copy(expression = _uiState.value.expression + theChar)
-                }
-                lenOfEx++
+        if (theChar in ('0'..'9') && _uiState.value.expression == "0") {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    expression = theChar.toString(),
+                    isCompleted = false
+                )
             }
-            theLastChar = theChar
-            updateResult()
+        } else {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    expression = _uiState.value.expression + theChar,
+                    isCompleted = false
+                )
+            }
+            lenOfEx++
         }
+        theLastChar = theChar
+        updateResult()
     }
 
     private fun Double.roundResult(lenOfPrecision: Int): Double {
@@ -70,10 +81,11 @@ class AppViewModel : ViewModel() {
             .toDouble()
     }
 
+    //Split the expression to used Polish Notation to calculate
     private fun splitTheExpression(expression: String): MutableList<String> {
         var result = ""
-        for (i in expression.indices) {
-            val c = expression[i]
+        for (i: Int in expression.indices) {
+            val c: Char = expression[i]
             if (c in "+-*/%") {
                 result += " $c "
             } else {
@@ -105,21 +117,21 @@ class AppViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(result = calculateExpression())
         }
-        lenOfPrecision = if (_uiState.value.result.indexOf('.') == -1) {
+        lenOfPrecision = if (_uiState.value.result.indexOf(char = '.') == -1) {
             0
         } else {
-            _uiState.value.result.length - _uiState.value.result.indexOf('.') - 1
+            _uiState.value.result.length - _uiState.value.result.indexOf(char = '.') - 1
         }
     }
 
     private fun calculateExpression(): String {
-        val inputList = splitTheExpression(_uiState.value.expression)
+        val inputList: MutableList<String> = splitTheExpression(_uiState.value.expression)
         inputList.formatList()
-        val numberList = mutableListOf<String>()
-        val operatorList = mutableListOf<String>()
+        val numberList: MutableList<String> = mutableListOf()
+        val operatorList: MutableList<String> = mutableListOf()
         val priorityOperator: Map<String, Int> = mapOf("+" to 1, "-" to 1, "*" to 2, "/" to 2)
         val operators = "+-*/"
-        for (i in inputList) {
+        for (i: String in inputList) {
             if (i in operators) {
                 if (operatorList.isEmpty())
                     operatorList.add(i)
@@ -127,10 +139,10 @@ class AppViewModel : ViewModel() {
                     if (priorityOperator.getValue(i) > priorityOperator.getValue(operatorList.last()))
                         operatorList.add(i)
                     else {
-                        val operator = operatorList.removeLast()
-                        val operand2 = numberList.removeLast()
-                        val operand1 = numberList.removeLast()
-                        val numberAdded = calculate(operand1, operand2, operator)
+                        val operator: String = operatorList.removeLast()
+                        val operand2: String = numberList.removeLast()
+                        val operand1: String = numberList.removeLast()
+                        val numberAdded: String = calculate(operand1, operand2, operator)
                         if (numberAdded == "Divided by zero") {
                             return "Divided by zero"
                         } else {
@@ -144,17 +156,17 @@ class AppViewModel : ViewModel() {
             }
         }
         while (operatorList.isNotEmpty()) {
-            val operator = operatorList.removeFirst()
-            val operand1 = numberList.removeFirst()
-            val operand2 = numberList.removeFirst()
-            val numberAdded = calculate(operand1, operand2, operator)
+            val operator: String = operatorList.removeFirst()
+            val operand1: String = numberList.removeFirst()
+            val operand2: String = numberList.removeFirst()
+            val numberAdded: String = calculate(operand1, operand2, operator)
             if (numberAdded == "Divided by zero") {
                 return "Divided by zero"
             } else {
-                numberList.add(0, numberAdded)
+                numberList.add(index = 0, numberAdded)
             }
         }
-        return numberList.removeLast().removeSuffix(".0")
+        return numberList.removeLast().removeSuffix(suffix = ".0")
     }
 
     private fun calculate(operand1: String, operand2: String, operator: String): String {
@@ -190,66 +202,66 @@ class AppViewModel : ViewModel() {
     private val delAction: () -> Unit = { removeLastChar() }
     private val appendPercentage: () -> Unit = {
         if (theLastChar !in ".+-*/") {
-            appendExpressionAction('%')
+            appendExpressionAction(theChar = '%')
         }
     }
     private val appendDivide: () -> Unit = {
         if (theLastChar in "+-*") {
             removeLastChar()
-            appendExpressionAction('/')
+            appendExpressionAction(theChar = '/')
         } else if (theLastChar !in "./") {
-            appendExpressionAction('/')
+            appendExpressionAction(theChar = '/')
         }
     }
     private val append7: () -> Unit = {
-        appendExpressionAction('7')
+        appendExpressionAction(theChar = '7')
     }
     private val append8: () -> Unit = {
-        appendExpressionAction('8')
+        appendExpressionAction(theChar = '8')
     }
     private val append9: () -> Unit = {
-        appendExpressionAction('9')
+        appendExpressionAction(theChar = '9')
     }
     private val appendMulti: () -> Unit = {
         if (theLastChar in "+-/") {
             removeLastChar()
-            appendExpressionAction('*')
+            appendExpressionAction(theChar = '*')
         } else if (theLastChar !in ".*") {
-            appendExpressionAction('*')
+            appendExpressionAction(theChar = '*')
         }
     }
     private val append4: () -> Unit = {
-        appendExpressionAction('4')
+        appendExpressionAction(theChar = '4')
     }
     private val append5: () -> Unit = {
-        appendExpressionAction('5')
+        appendExpressionAction(theChar = '5')
     }
     private val append6: () -> Unit = {
-        appendExpressionAction('6')
+        appendExpressionAction(theChar = '6')
     }
     private val appendMinus: () -> Unit = {
         if (theLastChar in "+*/") {
             removeLastChar()
-            appendExpressionAction('-')
+            appendExpressionAction(theChar = '-')
         } else if (theLastChar !in ".-") {
-            appendExpressionAction('-')
+            appendExpressionAction(theChar = '-')
         }
     }
     private val append1: () -> Unit = {
-        appendExpressionAction('1')
+        appendExpressionAction(theChar = '1')
     }
     private val append2: () -> Unit = {
-        appendExpressionAction('2')
+        appendExpressionAction(theChar = '2')
     }
     private val append3: () -> Unit = {
-        appendExpressionAction('3')
+        appendExpressionAction(theChar = '3')
     }
     private val appendPlus: () -> Unit = {
         if (theLastChar in "-*/") {
             removeLastChar()
-            appendExpressionAction('+')
+            appendExpressionAction(theChar = '+')
         } else if (theLastChar !in ".+") {
-            appendExpressionAction('+')
+            appendExpressionAction(theChar = '+')
         }
     }
     private val roundResultAction: () -> Unit = {
@@ -266,19 +278,19 @@ class AppViewModel : ViewModel() {
             }
             lenOfPrecision--
         }
-        if (_uiState.value.result.endsWith(".0")) {
+        if (_uiState.value.result.endsWith(suffix = ".0")) {
             _uiState.update { currentState ->
-                currentState.copy(result = _uiState.value.result.removeSuffix(".0"))
+                currentState.copy(result = _uiState.value.result.removeSuffix(suffix = ".0"))
             }
         }
     }
     private val append0: () -> Unit = {
-        appendExpressionAction('0')
+        appendExpressionAction(theChar = '0')
     }
     private val appendDecimal: () -> Unit = {
         if (theLastChar !in "+-*/%") {
-            if (_uiState.value.result.indexOfLast { it in "+-*/" } >= _uiState.value.result.indexOfLast { it == '.' })
-                appendExpressionAction('.')
+            if (_uiState.value.expression.indexOfLast { it in "/+-*" } >= _uiState.value.expression.indexOfLast { it == '.' })
+                appendExpressionAction(theChar = '.')
         }
     }
     private val showResultAction: () -> Unit = {

@@ -4,12 +4,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -28,7 +30,7 @@ import app.kotlin.calculator.ui.components.listImgSrc
 fun AppScreen(
     appViewModel: AppViewModel = viewModel()
 ) {
-    val appState = appViewModel.uiState.collectAsState()
+    val appState: State<AppUiState> = appViewModel.uiState.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +40,9 @@ fun AppScreen(
             painter = painterResource(id = R.drawable.app_background),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.blur(radius = 20.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .blur(radius = 20.dp)
         )
 
         //Add blur layer
@@ -54,21 +58,29 @@ fun AppScreen(
         }
 
         //Add app component
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(insets = WindowInsets.statusBars),
-            verticalArrangement = Arrangement.SpaceEvenly
+                .windowInsetsPadding(insets = WindowInsets.statusBars)
+                .windowInsetsPadding(insets = WindowInsets.navigationBars),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            CalculatorDisplay(
-                expression = appState.value.expression,
-                result = appState.value.result,
-                isCompleted = appState.value.isCompleted
-            )
-            Numpad(
-                listImgSrc = listImgSrc,
-                listOfAction = appViewModel.listOfAction
-            )
+            item {
+                CalculatorDisplay(
+                    expression = appState.value.expression,
+                    result = appState.value.result,
+                    isCompleted = appState.value.isCompleted
+                )
+            }
+
+            item {
+                Numpad(
+                    listImgSrc = listImgSrc,
+                    listOfAction = appViewModel.listOfAction
+                )
+            }
+
+
         }
     }
 

@@ -11,28 +11,39 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.kotlin.calculator.ui.theme.HighlightedTypo
 import app.kotlin.calculator.ui.theme.NormalTypo
 import app.kotlin.calculator.ui.theme.borderAndTextColor
+import app.kotlin.calculator.ui.theme.fontScale
 import app.kotlin.calculator.ui.theme.gradient1
 import app.kotlin.calculator.ui.theme.gradient2
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorDisplay(
     expression: String,
     result: String,
     isCompleted: Boolean
 ) {
-    val offSet = (LocalConfiguration.current.screenWidthDp - 76 * 4) / 5
-    val height = LocalConfiguration.current.screenWidthDp * 4 / 5
+    //(Screen width - button original size * buttonScale *4) / 5 (3 gutters and 2 margins)
+    val offSet: Float =
+        (LocalConfiguration.current.screenWidthDp - ((76.dp).buttonScale().value) * 4) / 5
+
+    val height: Int = LocalConfiguration.current.screenWidthDp * 4 / 5
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,6 +71,7 @@ fun CalculatorDisplay(
         )
         LazyColumn(
             modifier = Modifier
+                .fillMaxWidth()
                 .align(alignment = Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = 20.dp),
             horizontalAlignment = Alignment.End
@@ -69,8 +81,8 @@ fun CalculatorDisplay(
                 Text(
                     text = expression,
                     style = if (isCompleted)
-                        NormalTypo
-                    else HighlightedTypo
+                        NormalTypo.copy(fontSize = NormalTypo.fontSize.fontScale())
+                    else HighlightedTypo.copy(fontSize = HighlightedTypo.fontSize.fontScale())
                 )
             }
 
@@ -79,8 +91,12 @@ fun CalculatorDisplay(
                 Text(
                     text = result,
                     style = if (isCompleted)
-                        HighlightedTypo
-                    else NormalTypo,
+                        HighlightedTypo.copy(fontSize = HighlightedTypo.fontSize.fontScale())
+                    else NormalTypo.copy(fontSize = NormalTypo.fontSize.fontScale()),
+                    softWrap = true,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
