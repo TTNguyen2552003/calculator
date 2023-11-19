@@ -7,7 +7,8 @@
 
 ## Project requirement
 * Clone project
-    git clone https://github.com/TTNguyen25052003/Calculator
+  
+        git clone https://github.com/TTNguyen25052003/Calculator
 * Android Studio is recommended.
 * Minimum API level: 31 (Android 12).
 * Device compatibility: Android smartphones with [compact sreensize](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes).
