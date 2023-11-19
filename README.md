@@ -34,3 +34,6 @@ The app includes the following functionalities:
 [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) <---> [UI Jetpack Compose](https://developer.android.com/jetpack/compose)
 
 ## App UI
+<p align="left">
+  <img src="https://github.com/TTNguyen25052003/Calculator/blob/master/App%20screen.png" alt="Calculator screen app" width="25%" height="25%">
+</p>
