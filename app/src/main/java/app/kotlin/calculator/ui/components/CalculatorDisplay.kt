@@ -3,25 +3,24 @@ package app.kotlin.calculator.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.kotlin.calculator.ui.theme.HighlightedTypo
@@ -43,11 +42,14 @@ fun CalculatorDisplay(
     val offSet: Float =
         (LocalConfiguration.current.screenWidthDp - ((76.dp).buttonScale().value) * 4) / 5
 
-    val height: Int = LocalConfiguration.current.screenWidthDp * 4 / 5
+    //Height of display = screenHeight - numpad height
+    val numpadHeight: Int = LocalConfiguration.current.screenWidthDp * 5 / 4
+    val screenHeight: Int = LocalConfiguration.current.screenHeightDp
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(height.dp)
+            .padding(top = 10.dp)
+            .height(screenHeight.dp - numpadHeight.dp)
             .padding(start = offSet.dp, end = offSet.dp)
     ) {
         Card(
@@ -87,17 +89,22 @@ fun CalculatorDisplay(
             }
 
             //The result of expression
+
             item {
-                Text(
-                    text = result,
-                    style = if (isCompleted)
-                        HighlightedTypo.copy(fontSize = HighlightedTypo.fontSize.fontScale())
-                    else NormalTypo.copy(fontSize = NormalTypo.fontSize.fontScale()),
-                    softWrap = true,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                LazyRow(contentPadding = PaddingValues(start = 10.dp)) {
+                    item {
+                        Text(
+                            text = result,
+                            style = if (isCompleted)
+                                HighlightedTypo.copy(fontSize = HighlightedTypo.fontSize.fontScale())
+                            else NormalTypo.copy(fontSize = NormalTypo.fontSize.fontScale()),
+                            softWrap = true,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
             }
         }
     }

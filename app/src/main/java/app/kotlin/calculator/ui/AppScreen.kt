@@ -79,8 +79,6 @@ fun AppScreen(
                     listOfAction = appViewModel.listOfAction
                 )
             }
-
-
         }
     }
 
