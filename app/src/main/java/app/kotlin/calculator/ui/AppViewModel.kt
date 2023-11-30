@@ -214,13 +214,16 @@ class AppViewModel : ViewModel() {
         }
     }
     private val append7: () -> Unit = {
-        appendExpressionAction(theChar = '7')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '7')
     }
     private val append8: () -> Unit = {
-        appendExpressionAction(theChar = '8')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '8')
     }
     private val append9: () -> Unit = {
-        appendExpressionAction(theChar = '9')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '9')
     }
     private val appendMulti: () -> Unit = {
         if (theLastChar in "+-/") {
@@ -231,13 +234,16 @@ class AppViewModel : ViewModel() {
         }
     }
     private val append4: () -> Unit = {
-        appendExpressionAction(theChar = '4')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '4')
     }
     private val append5: () -> Unit = {
-        appendExpressionAction(theChar = '5')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '5')
     }
     private val append6: () -> Unit = {
-        appendExpressionAction(theChar = '6')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '6')
     }
     private val appendMinus: () -> Unit = {
         if (theLastChar in "+*/") {
@@ -248,13 +254,16 @@ class AppViewModel : ViewModel() {
         }
     }
     private val append1: () -> Unit = {
-        appendExpressionAction(theChar = '1')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '1')
     }
     private val append2: () -> Unit = {
-        appendExpressionAction(theChar = '2')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '2')
     }
     private val append3: () -> Unit = {
-        appendExpressionAction(theChar = '3')
+        if (theLastChar != '%')
+            appendExpressionAction(theChar = '3')
     }
     private val appendPlus: () -> Unit = {
         if (theLastChar in "-*/") {
