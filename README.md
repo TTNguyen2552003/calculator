@@ -6,7 +6,7 @@
 * Ensure app stability and performance.
 
 ## Project requirement
-* Clone project or [click here](https://drive.usercontent.google.com/download?id=1UerHkxQkbX2yOu2nFUmbV1HZLBZijbfk&export=download&authuser=0&confirm=t&uuid=eb72c349-f6ed-44c1-9836-e26ea4ad0a33&at=APZUnTVWQ_rbGXdFTQookzg7E-Mr:1701353811764) to download APK.
+* Clone project or [click here](https://drive.usercontent.google.com/download?id=1vCqxvSa7aGohudP0sMHsnf9Z8qclNC2z&export=download&authuser=0&confirm=t&uuid=f54f11eb-dd33-41da-8145-67d525e933d3&at=APZUnTWHBvwR1iOv_BGzMOhwEIhI:1705730174817) to download APK.
   
         git clone https://github.com/TTNguyen25052003/Calculator
 * Android Studio is recommended.
