@@ -1,4 +1,4 @@
-package app.kotlin.calculator.ui
+package app.kotlin.calculator.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -303,8 +303,7 @@ class AppViewModel : ViewModel() {
         }
     }
     private val showResultAction: () -> Unit = {
-        _uiState.update { currentState
-            ->
+        _uiState.update { currentState ->
             currentState.copy(isCompleted = !_uiState.value.isCompleted)
         }
     }

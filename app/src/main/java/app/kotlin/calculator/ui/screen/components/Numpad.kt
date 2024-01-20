@@ -1,4 +1,4 @@
-package app.kotlin.calculator.ui.components
+package app.kotlin.calculator.ui.screen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

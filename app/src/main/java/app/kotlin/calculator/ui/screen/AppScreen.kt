@@ -1,4 +1,4 @@
-package app.kotlin.calculator.ui
+package app.kotlin.calculator.ui.screen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -22,19 +22,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.kotlin.calculator.R
-import app.kotlin.calculator.ui.components.CalculatorDisplay
-import app.kotlin.calculator.ui.components.Numpad
-import app.kotlin.calculator.ui.components.listImgSrc
+import app.kotlin.calculator.ui.screen.components.CalculatorDisplay
+import app.kotlin.calculator.ui.screen.components.Numpad
+import app.kotlin.calculator.ui.screen.components.listImgSrc
+import app.kotlin.calculator.ui.viewmodel.AppUiState
+import app.kotlin.calculator.ui.viewmodel.AppViewModel
 
 @Composable
-fun AppScreen(
-    appViewModel: AppViewModel = viewModel()
-) {
+fun AppScreen(appViewModel: AppViewModel = viewModel()) {
     val appState: State<AppUiState> = appViewModel.uiState.collectAsState()
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         //App background
         Image(
             painter = painterResource(id = R.drawable.app_background),
