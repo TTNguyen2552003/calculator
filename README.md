@@ -35,5 +35,5 @@ The app includes the following functionalities:
 
 ## App UI
 <p align="left">
-  <img src="https://github.com/TTNguyen25052003/Calculator/blob/master/App%20screen.png" alt="Calculator screen app" width="25%" height="25%">
+  <img src="https://github.com/TTNguyen25052003/Calculator/blob/master/Screenshot.gif" alt="Calculator screen app" width="25%" height="25%">
 </p>
