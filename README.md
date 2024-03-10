@@ -28,7 +28,7 @@ The app includes the following functionalities:
 * % button
 
 ## Figma resource: 
-[click here](https://www.figma.com/file/jWRy1J4ND5o25o0G9TjfNd/Calculator-app?type=design&node-id=0%3A1&mode=design&t=a74ZqLly6HD2X2rw-1)
+[click here](https://www.figma.com/file/jWRy1J4ND5o25o0G9TjfNd/calculator?type=design&node-id=0%3A1&mode=design&t=NxoLm9TKNLTl1i2H-1)
 
 ## App architecture
 [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) <---> [UI Jetpack Compose](https://developer.android.com/jetpack/compose)
